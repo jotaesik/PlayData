@@ -1,0 +1,24 @@
+유저네임 이메일설정
+git config --global (user.name or user.email)
+
+설정값 확인
+git config --list 
+
+추적시작
+git init
+
+안에있는파일무조건 지우기
+rm -rf .git
+
+브랜치명 수정
+git config --global init.defaultBranch main
+
+help문
+git help <동사>
+git <동사> --help
+
+요약help문
+git <동사> -h
+
+branch 이름 변경
+git branch -M main
