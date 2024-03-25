@@ -33,6 +33,7 @@ git add .
 
 언스테이징 시키는법
 git rm --cached 파일이름
+git restore --staged 파일이름
 
 버전만들기
 git commit -m "메시지"
@@ -65,3 +66,6 @@ git 내용 비교
 git diff
 git diff --stage
 git diff <commit-hash>
+
+git복제
+get clone 원격주소
