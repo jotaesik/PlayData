@@ -104,3 +104,6 @@ git checkout 이름
 git브랜치와 합치ㅣ기
 git checkout main
 git merge 브랜치이름
+
+브랜치삭제
+git branch -d 이름
