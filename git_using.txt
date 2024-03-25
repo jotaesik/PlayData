@@ -69,3 +69,16 @@ git diff <commit-hash>
 
 git복제
 get clone 원격주소
+
+협업충돌
+//먼저 push한 파일 받아오기
+git fetch origin
+git merge origin/main
+git status로 오류확인
+vi로 편집기
+<<<<<
+=====
+>>>>>
+vs코드 키기 
+code 파일명
+git pull origin
