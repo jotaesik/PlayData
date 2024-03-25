@@ -22,3 +22,37 @@ git <동사> -h
 
 branch 이름 변경
 git branch -M main
+
+상태확인
+git status
+
+스테이지 시키는법
+git add 파일이름 
+or 
+git add .
+
+언스테이징 시키는법
+git rm --cached 파일이름
+
+버전만들기
+git commit -m "메시지"
+git commit -am "메시지
+
+버전들확인
+git log --graph
+
+통합 url
+토큰+@+주소
+
+git-github연동
+git remote add origin 원격주소(토큰값포함)
+
+연동확인
+git remote -v
+
+github에 넣기
+git push -u origin main
+git push origin
+
+원격주소 수조ㅓㅇ
+git remote set-url origin 주소
