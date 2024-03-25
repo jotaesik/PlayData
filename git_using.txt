@@ -69,3 +69,38 @@ git diff <commit-hash>
 
 git복제
 get clone 원격주소
+
+협업충돌
+//먼저 push한 파일 받아오기
+git fetch origin
+git merge origin/main
+git status로 오류확인
+vi로 편집기
+<<<<<
+=====
+>>>>>
+vs코드 키기 
+code 파일명
+git pull origin
+
+브랜치 보기
+git branch
+
+원격브랜치
+git branch -a
+
+워격브랜치만 보기
+git branch -r
+
+브랜치와 마지막 커밋
+git branch -v
+
+브랜치 생성
+git branch 이름
+
+브랜치 변경
+git checkout 이름
+
+git브랜치와 합치ㅣ기
+git checkout main
+git merge 브랜치이름
