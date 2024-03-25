@@ -54,5 +54,14 @@ github에 넣기
 git push -u origin main
 git push origin
 
-원격주소 수조ㅓㅇ
+원격주소 수정
 git remote set-url origin 주소
+
+git에서 특정버전 파일 내용확인
+git show 버전 : 파일경로
+버전-커밋해시,브랜치,태그
+
+git 내용 비교
+git diff
+git diff --stage
+git diff <commit-hash>
