@@ -43,7 +43,7 @@ git commit -am "메시지
 git log --graph
 
 통합 url
-토큰+@+주소
+토큰+@+주소(https:// + 토큰 + @ + 주소)
 
 git-github연동
 git remote add origin 원격주소(토큰값포함)
