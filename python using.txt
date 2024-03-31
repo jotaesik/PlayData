@@ -1,0 +1,198 @@
+인터프리터 즉시해석
+컴파일러 번역해서 파일생성
+
+아나콘다 prompt->jupyter lab
+
+jupyter notebook --generate-config
+//내가 파이썬 저장할파일설정
+c.NotebookApp.notebook_dir='C\python'
+
+동적타이핑->데이터타입 명시안해도 스스로분석
+
+프롬프트타가기 exit()
+
+COMMAND모드
+A키 현재 셀위에 새로운 셀 추가
+B키 현재 밑에 새로운 셀 추가
+DD 현제 셀 삭제
+M-MARKDOWN Y-CODE R-RAW
+SHIFT M 두개의 셀 MERGE
+SHIFT 아래방향 현제셀부터 아래쪽셀선택
+
+EDIT모드
+CNTRL / 주석처리
+CNRL SHIFT - 현재커서위치를 기준으로 두개의 셀 구분
+CNTR D 한줄삭제
+
+실행
+CNTRL ENTER
+
+나누기는 항상 실수
+몫 구하기 기호 //
+거듭제곱 **
+
+2진법 0b
+8진법 0o
+16진법 0x
+
+변수명 
+문자 숫자 언더바 
+숫자 시작 x
+대소문자 구분
+
+스네이크케이스: 함수,메소드,변수
+
+just_do_it
+파스칼 케이스: 클래스
+JustDoIt
+
+카멜케이스: 
+justDoIt
+
+변수삭제:
+del 변수명
+
+변수빈값할당:
+ex) a=None
+print(a)=>None
+
+시퀀스자료형->인덱싱과 슬라이싱 가능
+str불변
+list가변
+tuple불변
+range불변
+bytes불변
+byearray가변
+
+문자열리터럴
+raw string 
+ex)s1 = r"c:\name"
+
+문자열리터럴 삼중따옴표->개행인식
+//줄바꿈 안하려면 \넣어주기
+
+문자열반복 *
+문자열이으기 + 
+
+문자열슬라이싱은 인덱스 범위 벗어나도 괜찬
+
+list.count(요소)->요소의 개수가 몇개인지
+
+tuple 생성
+a=() or a=tuple()
+a="1","2"
+a는 튜플
+
+세트자료형
+중복되는값 x 인덱스 x
+
+{}->딕션너리
+set()->세트형
+
+remove() ->없을시 에러 o
+discard() -> 없을시 에러 x
+
+set.union(A,B)  or print(a|b)
+set.intersection(A,B) or pint(a&b)
+set.difference(A,B) or print(a-b)
+a.update(b) => a|=b	b를 포함해서 a에 넣기
+a.intersecion_update(b)=>a&=b 교집합넣기
+a.differenc_update(b_=> a-=b a에 차집합넣기
+a.issubset(b) ==>부분함수임?
+a.issuperset(b) ==>상위지합이냐?
+a.isdisjoint(b)=>세트가 안겹치는지 확인하기 교집합이 공집합인가?
+
+딕셔너리자료형-key는 고유값-중복시 최근에 넣은 키값만 남음
+여러자료형 가능 하지만 가변리스트는 사용불가(키는 x 값은 사용)
+pythone에서는 1==True 
+a{} or a=dict()
+dict()함수에서는 키값 따옴표 x 문자열로 무조건 생성
+zip()함수, 키값리스트,인덱스가 같은 요소들을 꺼내서 튜플로만들어줌
+del키로 삭제
+
+if문
+pass 치면 오류없이 일단 너머감
+if문뒤에는 반드시 콜론: 오기
+
+is는 객체비교문
+
+for문 range()함ㅅ수
+range(시작,끝,증감크기)
+range자체는 list가 아님
+
+iterable 한번에 하나씩 요소를 꺼내올수있는 객체
+str list tuple range 등
+
+리스트컴프리헨션 대괄호+for문
+표현식 for 변수 in interable
+대괄호 대신에 list()쓸수있음
+
+print()함수
+
+input()함수
+문자열로 받는다
+
+def
+""" docstring 함수 정의
+인자 
+위치키워드 
+	위치가 키워드보다  먼저와야함
+위치전용 
+	무조건 위치로만
+키워드 전용 
+	* 키워드만 오직올수있음
+	default정의도면 안써도 됨
+가변위치
+	주소전달방식 
+가변키워드
+
+add.__doc__
+doc 기억 or help함수
+
+람다식
+변수선언 불가능=>그럴바에 함수쓰기
+
+true일때 값 if조건식 else fasle일때 값
+
+map()함수 길이가 작은쪽에 맞춘다
+filter()함수
+
+내장함수
+
+클래스
+filed
+method
+self객체
+
+f스트링
+__비공개속성 외부에서 접촉x
+__init__ 생성자
+
+모듈
+모듈파일로 변환
+jupyter nbconvert --to script 파일이름.ipynb
+%%writefile 파일이름.py	하나의 셀만가능
+모듈불러오기 import
+모듈이름도 변수명명규칙 지키기!
+as로 별칭 지정가능
+from 모듈명 import 함수명
+* 모든함수가져오기
+
+import random
+random.random() 0<= <1 소수반환
+random.randint(1,10) 1이상 10이하
+random.choice(sequne자료형) 
+random.shuffle(sequecne자료형)
+random.sample(자료형,개수) //중복되지않는거 출려
+
+import datetime
+datetime.datetime.now() 
+datetime.datetime(2023,5,23,10,30,0) //특정시간 생성
+//특정 형식으로 날짜와 시간출력
+print(datetime.datetime.mow().strftime("%Y-%m-%d")
+//현재시간에서 1일전 날짜 계산
+datetime.datetime.now()- datetime.timedelta(days=1)
+//다른시간대로 변환
+import pytz
+pytz.timezone("America/New_York")
+now.astimezone(시간)
