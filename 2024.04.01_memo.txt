@@ -1,0 +1,132 @@
+리눅스
+
+메모리16인지확인
+
+실행 appwiz.cpl
+윈도위 기능켜기 
+하이펄-v , linux용 windows 하위시스템 체크->재부팅
+
+CLI-COMMAND LINE INTERFACE
+-PORT DEFAULT 22
+-TELNET
+-SSH 프로토콜
+
+-PORT는 중복이 안된다.다른프로세서가 쓰고있으면 사용불가. 2^16 65536가지
+
+~1023 -KNOWN PORT 
+80번PORT - 인터넷 포트 WEB PORT
+443PORT-HTTPS S를 붙인 보안포트,약속한 포트는 포트안써도 입력가능
+
+GUI-GRAPHIC USER INTERFACE
+
+microsoft store-> ubuntu 22.04.3 LTS
+-->에러나면 kenerl 업데이트
+https://learn.microsoft.com/ko-kr/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package
+
+
+UBUNTU는 PYTHON 내포
+
+PYTHON.ORG
+
+ubuntu
+	python3
+python2-유지보수<==아키텍쳐가다름==>python3
+
+python은 thread에 취약
+가상환경지원
+3.10.12
+3-메이저버전-아키텍터 교환
+10-마이너버전-메이저버전에서 기능추가
+ex)diction 자료형 정렬기능추가 3.5이상
+ex)fstring 3.6이상
+12-보안업데이트
+
+IEEE 소수점내용
+
+자료구조-알고리즘
+
+#디렉토리 변경
+cd 
+cd ~ 
+
+#현재폴더위치
+pwd
+
+#계정
+whoami
+
+#폴더만들기
+mkdir workspace
+
+cd workspace/
+
+pip 파이썬 모듈다운
+no command이므로 
+시스템설치는 root만 sudo는 내가 root권한을 빌린다
+sudo apt install python3-pip 치고
+비밀번호 치고 에러ㄸ면
+sudo apt update
+sudo apt install python3-pip -y =>자동화
+
+다운로드다되면 pip치기
+
+jupyter -줄리아 언어 + 파이썬 + R=>개발용X 분석용O
+
+NUMPY-선형대수학
+SCIPY=물리,공학
+JUPYTER
+==>PYTORCH, TENSERFLOW
+	
+SCIKIT-LEARN-파이썬 ML
+DEEP LEANRING	-	GOOGLE	-	TENSORFLOW
+		-	META	-	PYTORCH
+
+PANDAS
+
+데이터분석->코딩,통계,도메인+SQL+LINUX
+
+pip install jupyter
+
+vs code 설치
+https://code.visualstudio.com/docs/?dv=win64user
+
+확장에 wsl검색 install
+vscode로 ubuntu서버에 붙어서 분석
+
+f1->WSL: Connect to WSL 
+wsl서버에 vs code를 통하여 붙겠다.
+왼쪽아래 wsl:ubuntu 확인
+
+파일만들어서 jotaesik선택 workspace 그다음 python install
+그냥 확장설치 2024.04.01.ipynb 파일만들고 
+ipynb->notebook file
+2024.04.01.py 파이썬파일만들기
+//아마 JUPYTER KEYMAP도 INSTALL해야함 
+//python 자동 install
+
+https://learn.microsoft.com/ko-kr/windows/python/web-frameworks
+https://ansan-survivor.tistory.com/1247#google_vignette
+
+노션//
+	
+#CELL 실행하는 방법
+SHIFT ENTER
+ALT ENTER
+CTRL ENTER
+
+#CELL 전환
+비주얼 모드 M버튼->MARKDOWN CELL
+MARKDOWN CELL->비주얼 모드->Y->PYTHON CELL
+
+파이썬 변수 이름
+숫자시작x, 예약어x, 중간에 특수문자 x
+
+파이썬허수
+complex
+
+dir=>기능알고싶을때
+
+format(x)
+{} {} .format(,)
+
+vscode에서 terminal로 확인해보기
