@@ -1,0 +1,43 @@
+kospi 주식 종목 가져오기
+import requests
+from bs4 import BeautifulSoup as BS
+import os
+from tqdm import tqdm
+import csv
+
+폴더 생성
+if not os.path.isdir('./stock'):
+    os.mkdir('./stock')
+
+주식 종목 리스트 url 가져오기
+url1 = 'http://data.krx.co.kr/comm/bldAttendant/getJsonData.cmd'
+
+
+페이로드
+payload = {
+    'bld': 'dbms/MDC/STAT/standard/MDCSTAT01901',
+    'locale': 'ko_KR',
+    'mktId': 'STK',
+    'share': '1',
+    'csvxls_isNo': 'false'
+}
+
+url1에서 텍스트 가져오기
+r1 = requests.post(url1, data=payload)
+data1 = r1.json()
+print(data1['OutBlock_1'][:3])
+주식 종목 데이터 url 가져오기
+url2 = "https://m.stock.naver.com/front-api/v1/external/chart/domestic/info?symbol={}&requestType=1&startTime={}&endTime={}&timeframe=day"
+
+네이버 주식 api를 이용해서 종목 데이터 가져오기
+for d in tqdm(data1["OutBlock_1"][:200]):
+    stock_name = d['ISU_ABBRV']  # 종목 이름 가져오기
+    stock_code = d['ISU_SRT_CD'] # 종목 코드 가져오기
+    r2 = requests.get(url2.format(stock_code, '20230102', '20240402'))
+    data = eval(r2.text.strip())
+    f = open("./stock/{}.csv".format(stock_name), "w", newline='')
+    write_stock = csv.writer(f)
+    write_stock.writerows(data)
+    f.close()
+
+200개 종목만 했습니다.
