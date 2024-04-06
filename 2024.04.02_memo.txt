@@ -98,7 +98,7 @@ ipython //주비터랑 유사 cell번호 //매쓰매티카=>siri창조
 from jupyter_server.auth import passwd
 passwd()
 out[2]=>암호화임
-'argon2:$argon2id$v=19$m=10240,t=10,p=8$xODWiG0zG34j0OUmK0mMJQ$90l8VuN+dmVaHJnZnBoRwAUmsWQbFXyL+QUP7BTSbjM'
+
 
 vim jupyter_notebook_config.py
 ese :/password 검색
