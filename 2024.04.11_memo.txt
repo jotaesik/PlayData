@@ -1,0 +1,14 @@
+help(fidelity) 주석처리 
+@deco
+#기능을 추가하고싶을때 @deco 를 적고 함수를 입력한다
+# 모듈추가하고싶을때 기존함수에서
+#함수안에 함수 선언가능 객체이므로
+restfulapi 프로그램통신은 모두 api
+양적데이터 or 질적데이터(범주형데이터 or category데이터) 양적데이터는 오직 숫자
+원핫인코딩
+CREATE TAble convenience_store(
+    name VARCHAR(30) default not null,
+    address..
+    sido..
+    
+)
