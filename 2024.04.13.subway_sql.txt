@@ -1,0 +1,19 @@
+CREATE Table subway
+(
+    `역명` VARCHAR(50) NOT NULL, 
+    `합계` BIGINT NOT NULL,
+    `위도` FLOAT NOT NULL,
+    `경도` FLOAT NOT NULL,
+    `구군` VARCHAR(50) NOT NULL,
+    PRIMARY KEY(`역명`)
+);
+
+
+subwayINSERT INTO subway (`역명`, `합계`, `위도`, `경도`, `구군`) VALUES ('가락시장', 6592849, 37.492511, 127.118573, '송파구');
+		
+
+
+SELECT * FROM subway;    
+    
+    
+   
