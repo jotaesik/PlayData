@@ -1,0 +1,408 @@
+cmd 
+
+ssh playdata2@ip
+ssh-keygen -t rsa
+
+
+wsl
+ssh ubuntu@ip
+git config --global user.name "name"
+git config --global user.email "email"
+git pull origin master
+git push origin master
+
+sudo mysql -uroot encore < ~/backup.sql
+
+
+mysqldump
+sudo mysqldump -uroot classicmodels > ~/backup.sql
+cd ~./ssh
+cat id_rsa.pub >> authorized_keys
+chmod 600 authorized_keys
+ssh-keygen -t rsa
+
+# db backup 
+sudo mysqldump -uroot classicmodels > ~/backup.sql
+
+# db 복원 
+mysql -uroot [db명] < ~/backup.sql 
+
+
+
+# ssh
+ssh id@ip
+
+
+# 계정 비밀번호 설정 
+sudo passwd [계정]
+
+whoami 
+pwd 
+
+# 윈도우의 터미널에서 
+ssh-keygen -t rsa
+
+~/.ssh 생성 
+id_rsa
+id_rsa.pub
+
+
+
+
+# ssh 
+cat id_rsa.pub >> authorized_keys
+
+chmod 600 authorized_keys
+
+
+1. 윈도우 .ssh 폴더에서 
+2. id_rsa.pub 메모장 열기 -> 내용 복사 
+3. wsl(서버) authorized_keys
+vim authorized_key 
+마지막줄에 복사한 내용 붙여넣기, 저장하기 
+4. 윈도우에서 
+ssh id@ip 
+
+
+
+------------------------
+1) 일별 매출액 조회 
+SELECT A.orderDate, B.priceEach * B.quantityOrdered
+FROM orders A
+LEFT JOIN orderdetails B
+ON A.orderNumber = B.orderNumber;
+
+SELECT orders.orderDate, orderdetails.priceEach * orderdetails.quantityOrdered
+FROM orders 
+LEFT JOIN orderdetails 
+ON orders.orderNumber = orderdetails.orderNumber;
+
+
+
+SELECT A.orderDate, B.priceEach * B.quantityOrdered AS RESULT
+FROM orders A
+LEFT JOIN orderdetails B
+ON A.orderNumber = B.orderNumber;
+
+
+
+SELECT A.orderDate, SUM(B.priceEach * B.quantityOrdered) AS SALES
+FROM orders A
+LEFT JOIN orderdetails B
+ON A.orderNumber = B.orderNumber
+GROUP BY A.orderDate;
+
+
+SELECT A.orderDate, SUM(B.priceEach * B.quantityOrdered) AS SALES
+FROM orders A
+LEFT JOIN orderdetails B
+ON A.orderNumber = B.orderNumber
+GROUP BY 1
+
+
+
+SELECT A.orderDate, SUM(B.priceEach * B.quantityOrdered) AS SALES
+FROM orders A
+LEFT JOIN orderdetails B
+ON A.orderNumber = B.orderNumber
+GROUP BY 1
+ORDER BY 2 DESC;
+
+
+SELECT SUBSTR('2004-11-24', 1,7);
+
+# 월별 매출 합계 구하기
+ -> 정렬은 날짜순으로....
+
+
+SELECT SUBSTR(A.orderDate, 1,4) AS YY, SUM(B.priceEach * B.quantityOrdered) AS SALES
+FROM orders A
+LEFT JOIN orderdetails B
+ON A.orderNumber = B.orderNumber
+GROUP BY 1
+ORDER BY 1;
+
+
+
+
+-------
+건당 구매 금액(ATV, Average Transaction Value) 
+
+https://blog.naver.com/PostView.nhn?blogId=insidecompany&logNo=222030886283&parentCategoryNo=&categoryNo=24&viewDate=&isShowPopularPosts=true&from=search
+
+Q : 1건의 거래는 평균적으로 얼마의 매출을 발생시키는가? 
+
+매출 / 구매 건수  -> ATV
+ 
+
+YY , cnt_purchaser, sales, atv
+
+
+SELECT SUBSTR(A.orderDate, 1,4) AS YY, COUNT(DISTINCT (A.orderNumber)) AS cnt_purchaser,
+SUM(B.priceEach * B.quantityOrdered) AS SALES, 
+SUM(B.priceEach * B.quantityOrdered) / COUNT(DISTINCT (A.orderNumber)) AS atv
+FROM orders A
+LEFT JOIN orderdetails B
+ON A.orderNumber = B.orderNumber
+GROUP BY 1
+ORDER BY 1;
+
+
+
+------------------
+국가별, 도시별 매출액 
+SELECT *
+FROM orders A
+LEFT JOIN orderdetails B
+ON A.orderNumber = B.orderNumber
+LEFT JOIN customers C
+ON A.customerNumber = C.customerNumber;
+
+
+
+-> country, city, sales 
+
+-> groupby(['country', 'city'])
+
+마이그레이션 
+
+
+
+SELECT C.country, C.city, 
+SUM(B.priceEach * B.quantityOrdered) AS sales
+FROM orders A
+LEFT JOIN orderdetails B
+ON A.orderNumber = B.orderNumber
+LEFT JOIN customers C
+ON A.customerNumber = C.customerNumber
+GROUP BY 1, 2 
+ORDER by 1;
+
+
+order = pd.read_sql_query("select * from orders", con=con)
+orderdetails = pd.read_sql_query("select * from orderdetails", con=con)
+customers = pd.read_sql_query("select * from customers", con=con)
+
+
+df = pd.merge(pd.merge(order, orderdetails, on='orderNumber', how='left'), customers, on="customerNumber", how='left')
+
+
+df['tmp'] = df['priceEach'] * df['quantityOrdered']
+
+
+df.groupby(['country', 'city'],as_index=False)[['tmp']].sum().sort_values(by=['country', 'city'])
+
+----------
+CASE WHEN 조건 THEN 결과 END
+
+SELECT CASE WHEN COUNTRY IN ('USA', 'Canada') THEN 'North America'
+ELSE 'Others' END COUNTRY_GRP 
+FROM customers;
+북미, 비북미 매출액 비교해줘 
+
+SELECT CASE WHEN C.COUNTRY IN ('USA', 'Canada') THEN 'North America'
+ELSE 'Others' END COUNTRY_GRP,
+SUM(B.priceEach * B.quantityOrdered) AS sales
+FROM orders A
+LEFT JOIN orderdetails B
+ON A.orderNumber = B.orderNumber
+LEFT JOIN customers C
+ON A.customerNumber = C.customerNumber
+GROUP BY 1;
+
+
+
+CREATE TABLE STAT AS 
+SELECT C.country, C.city, 
+SUM(B.priceEach * B.quantityOrdered) AS sales
+FROM orders A
+LEFT JOIN orderdetails B
+ON A.orderNumber = B.orderNumber
+LEFT JOIN customers C
+ON A.customerNumber = C.customerNumber
+GROUP BY 1, 2 
+ORDER by 1;
+
+
+SELECT COUNTRY, SALES,
+DENSE_RANK() OVER(ORDER BY SALES DESC) RNK
+FROM STAT;
+
+CREATE VIEW tmp AS 
+SELECT COUNTRY, SALES,
+DENSE_RANK() OVER(ORDER BY SALES DESC) RNK
+FROM STAT;
+
+
+CREATE VIEW tmp AS 
+SELECT COUNTRY, SALES,
+DENSE_RANK() OVER(ORDER BY SALES DESC) RNK
+FROM STAT;
+
+
+SELECT * 
+FROM tmp 
+WHERE RNK BETWEEN 1 AND 5;
+
+SELECT * 
+FROM tmp 
+WHERE RNK >= 1 
+AND RNK <= 5;
+
+
+
+sub-query 
+SELECT COUNT(*) FROM 
+( SELECT C.country, C.city, 
+SUM(B.priceEach * B.quantityOrdered) AS sales
+FROM orders A
+LEFT JOIN orderdetails B
+ON A.orderNumber = B.orderNumber
+LEFT JOIN customers C
+ON A.customerNumber = C.customerNumber
+GROUP BY 1, 2 
+ORDER BY 1) D;
+
+
+SELECT * 
+FROM 
+(
+SELECT COUNTRY, SALES,
+DENSE_RANK() OVER(ORDER BY SALES DESC) RNK
+FROM
+(
+    	SELECT C.country, C.city, 
+SUM(B.priceEach * B.quantityOrdered) AS sales
+FROM orders A
+LEFT JOIN orderdetails B
+ON A.orderNumber = B.orderNumber
+LEFT JOIN customers C
+ON A.customerNumber = C.customerNumber
+GROUP BY 1, 2 
+ORDER by 1
+) D
+) E
+WHERE RNK <= 5;
+
+
+
+df2 = df.groupby(['country', 'city'],as_index=False)[['tmp']].sum().sort_values(by=['country', \
+                                        'city']).rename(columns={'tmp' : 'sales'})
+
+
+
+sql = """CREATE Table dataset2
+(
+    `Clothing ID` INT,
+    `Age` INT,
+    `Title` VARCHAR(30),
+    `Review Text` TEXT,
+    `Rating` INT,
+    `Recommended IND` INT,
+    `Positive Feedback Count` INT,
+    `Division Name` VARCHAR(30),
+    `Department Name` VARCHAR(30),
+    `Class Name` VARCHAR(30)
+)"""
+
+cur.execute(sql)
+con.commit()
+
+
+
+ALTER TABLE dataset2 MODIFY COLUMN `Title` VARCHAR(200);
+
+----------
+data = pd.read_csv("./data/dataset2.csv", delimiter=";")
+
+
+def tmp(x):
+    global var_x 
+    var_x = x
+    cur.execute("INSERT  INTO dataset2 VALUES (%s, %s, %s, %s, %s,%s, %s, %s, %s, %s)", x.tolist())
+    return 0
+
+data=  data.where(pd.notnull(data), None)
+
+data.apply(tmp, axis=1)
+con.commit()
+
+----------
+
+
+insert_sql = "INSERT  INTO dataset2 VALUES (%s, %s, %s, %s, %s,%s, %s, %s, %s, %s)"
+data.apply(lambda x : cur.execute(insert_sql, x.tolist() ), axis=1)
+
+
+
+• Clothing ID: 상품 번호(Unique Value) 
+• Age: 리뷰작성자의 연령 
+• Title: 리뷰 제목 
+• ReviewText: 리뷰내용 
+• Rating: 리뷰 작성자가 제출한 평점 
+• Recommended IND: 리뷰어에 의한 상품 추천 여부 
+• Positive Feedback Count: 긍정 적 피드백 수 
+• Division Name: 상품이 속한 Division 
+• Department Name: 상품이 속한 Department 
+• Class Name: 상품의 타입
+
+
+Division name별 평균 평점 
+
+AVG
+
+SELECT `Division Name`,
+AVG(RATING) AVG_RATE
+FROM dataset2
+GROUP BY 1;
+______
+
+
+data.groupby(['Division Name'])[['Rating']].mean().sort_values(by=['Rating'], ascending=True)
+
+def tmp(x):
+    if x < 20:
+        return '청소년'
+    elif x < 50:
+        return "청년"
+    else:
+        return "중년"
+data['Age'].apply(tmp)
+
+
+data['Age'].apply(lambda x :  '청소년' if x < 20  else ("청년" if x < 50 else "중년" ))
+
+
+
+SELECT CASE WHEN AGE BETWEEN 0 AND 19 THEN '청소년'
+WHEN AGE BETWEEN 20 AND 49 THEN '청년'
+WHEN AGE BETWEEN 49 AND 99 THEN '중년' END age_class, age
+from dataset2;
+
+
+
+SELECT count(age_class)
+FROM 
+(SELECT CASE WHEN AGE BETWEEN 0 AND 19 THEN '청소년'
+WHEN AGE BETWEEN 20 AND 49 THEN '청년'
+WHEN AGE BETWEEN 49 AND 99 THEN '중년' END age_class, age
+from dataset2) A
+GROUP BY age_class;
+
+
+
+
+ssh ubuntu@ip
+
+
+# 내 wsl안에서.... 
+git config --global user.name "사용자이름"
+git config --global user.email "이메일"
+
+# 변경 
+git config --global user.name [이름]
+
+
+
+cd ~ 
+git clone ssh://ubuntu@ip:/home/ubuntu/repos
