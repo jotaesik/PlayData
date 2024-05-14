@@ -1,0 +1,36 @@
+def predict_model(request):
+    with open("model.json", "r") as f:
+    model = model_from_json(f.read())
+    model.load_weights('model.h5')
+    labels_ohe_names =  {0 : "airplane",
+            1 : "automobile",
+            2 : "bird",
+            3 : "cat",
+            4 : "deer",
+            5 : "dog",
+            6 : "frog",
+            7 : "horse",
+            8 : "ship",
+            9 : "truck",}
+
+    base64_string = request.data.get('image')
+    img = Image.open(BytesIO(base64.b64decode(base64_string)))
+    
+    img = np.array(img)
+
+    
+    resized_img = cv2.resize(img,(96, 96))
+    resized_img = resized_img.reshape(96, 96, 3)
+    
+    
+    resized_img = resized_img / 255.0
+    resized_img = np.expand_dims(resized_img, axis=0)
+    
+    rt = model.predict(resized_img)
+    rt = np.argmax(rt, axis = 1)
+    result = labels_ohe_names[rt[0]]
+    
+    return_value = { "class" : result}
+    
+    return Response(return_value)
+  
