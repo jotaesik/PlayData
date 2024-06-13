@@ -1,0 +1,29 @@
+import os
+import subprocess
+from pyarrow import fs
+import pyarrow as pa
+classpath = subprocess.Popen(["/home/hadoop/hadoop/bin/hdfs", "classpath", "--glob"], stdout=subprocess.PIPE).communicate()[0]
+os.environ["CLASSPATH"] = classpath.decode("utf-8")
+hdfs = fs.HadoopFileSystem(host='ip', port=port, user='hadoop')
+
+# 디렉토리 경로
+dir_path = '/'
+
+# 디렉토리 목록 가져오기
+file_infos = hdfs.get_file_info(pa.fs.FileSelector(dir_path, recursive=False))  
+for file_info in file_infos:
+    print(file_info.path) 
+
+
+hdfs.create_dir("/encore_test")
+
+import pyarrow.parquet as pq
+import pyarrow as pa
+
+df.to_parquet('encore.parquet')
+hdfs.copy_file("/encore/core-site.xml", '/encore_test/') 
+# 같은 hdfs환경에서가능
+
+table = pa.Table.from_pandas(df)
+pq.write_table(table, '/encore_test/aa.parquet', filesystem=hdfs)
+pd.read_parquet("aa.parquet")
