@@ -1,0 +1,9 @@
+file_path = '/encore/tpss_bcycl_od_statnhm_202001.csv'
+import pandas as pd
+with hdfs.open_input_file(file_path) as f:
+    #table = csv.read_csv(f, encoding='cp949')
+    df = pd.read_csv(f, encoding='cp949')
+import pyarrow as pa
+import pyarrow.parquet as pq
+table = pa.Table.from_pandas(rt)
+pq.write_table(table, '/mort/stock.parquet', filesystem=hdfs)
