@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        BI 연습
+    </head>
+    <title>BI 연습 - chart.js</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <body>
+        <canvas id="myChart"></canvas>
+        <script>
+            const ctx = document.getElementById('myChart').getContext('2d');
+            const chartData = JSON.parse('{{ chart_data|safe }}')
+            const myChart = new Chart(ctx, {
+                type: 'bar',
+                data: chartData,
+                options:{
+                    scales: {
+                        y: {
+                            beginAtzero: true
+                        }
+                    }
+                }
+            })
+
+
+        </script>
+    </body>
+</html>
