@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        BI 연습
+    </head>
+    <title>BI 연습 - chart.js</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <body>
+        <canvas id="weather"></canvas>
+        <script>
+            const ctx = document.getElementById('weather').getContext('2d');
+            const weather_data = JSON.parse('{{ weather_data|safe }}')
+            const myChart = new Chart(ctx, {
+                type: 'bar',
+                data: weather_data,
+                options:{
+                    scales: {
+                        y: {
+                            beginAtzero: true
+                        }
+                    }
+                }
+            })
+
+
+        </script>
+    </body>
+</html>
