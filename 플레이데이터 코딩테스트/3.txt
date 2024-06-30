@@ -1,0 +1,24 @@
+# -*- coding: utf-8 -*-
+# UTF-8 encoding when using korean
+user_input = input()
+# print ("Hello Goorm! Your input is " + user_input)
+n = int(user_input.split(" ")[0])
+m = int(user_input.split(" ")[1])
+n_list = []
+m_list = []
+for i in range(n):
+	name_input = input()
+	n_list.append(name_input)
+for i in range(m):
+	name_input = input()
+	m_list.append(name_input)	
+n_set = set(n_list)
+m_set = set(m_list)
+same = n_set.intersection(m_set)
+if len(same)==0:
+	print("-1")
+else:
+	ans_list = list(same)
+	for i in ans_list:
+		print(i,sep=" ")
+# print(same)
