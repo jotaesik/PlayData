@@ -1,0 +1,4 @@
+wget [mecab-kor-dic]
+pip uninstall pyspark
+pip install pyspark==3.4.3
+pip install pyarrow
