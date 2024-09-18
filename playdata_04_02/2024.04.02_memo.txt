@@ -1,0 +1,182 @@
+터미널키기
+sudo apt install jupyter-core
+비번입력
+y
+jupyer-notebook
+
+컨트롤누르고 사이트클릭
+
+//root는 보안권한때문에 막는다.
+sudo su
+jupyter-notebook --allow-root
+
+jupyter 기본 port 8888
+
+127.0.0.1 loop back ip
+localhost-내pc
+
+DNS-domain network server(system)
+TCP/IP-OSI계층 -데이터를 쪼개서보내는 프로토콜
+UDP-동영상프로토콜사용하였으나 지금은 TCP
+현재 대부분이 TCP
+프로토콜PROTOCOL-약속
+
+새로운terminal 열어서
+ip a
+nslookup입력후 www.naver.com
+www.nate.com=>address 를 주소창에 넣으면 nate.com이동
+총 8bit*4 ipv4체계 32bit 
+주소가 부족해서
+ipv6 128bit등장
+ip를 기억못하므로 domain를 씌운다 그러면 ip->domain변환하는게 DNS이다. nate를 검색하면 dns에서 domain->ip로 변환해서 찾아가게 해준다.
+
+//kt dns 서버 테이블을 지워서 서버가망함. ip로는 들어가짐.
+dns도 연합이있다. 하나의 컴터에 모든 ip를 저장못하므로.
+중앙dns서버
+
+브로드캐스트,서브넷
+서브넷이 크면 힘들어서 라우터
+중국-화웨이 라우터시장 40퍼점유율
+시스코-라우터만드는회사(옛날에 독점)
+
+ip헤더
+
+host서버가 dns서버보다 먼저확인
+host서버에 정보가있으면 먼저이동
+
+jupyter notebook --generate-config
+/home/jotaesik/.jupyter/jupyter_notebook_config.py
+cd ~ =>home으로 감
+ls =>목록보기
+ls -al =>목록상세보기
+파일앞에.있으면 숨긴파일
+
+drwxr-xr-x 4 jotaesik jotaesik 4096 Apr  2 09:48 .jupyter
+		계정	   그룹
+drwxr-xr-x 
+	-d : directory
+	-   : file
+
+rwx	r-w	r-x
+내꺼	그룹	제3자
+r:read
+w:write
+x:execute =>실행
+
+rwx
+421 =>7
+r-x =>5
+r-x =>5
+	
+보통프로그램600-나만읽고쓸수있음
+
+echo 문자열=>그냥 메아리치는거
+echo 문자열 > a.txt =>redirect=>644
+키보드모니터 표준입출력
+
+chmode 646 a.txt
+-rw-r--rw- 1 jotaesik jotaesik    3 Apr  2 10:19 a.txt
+//권한바꾸기
+chmod o-w a.txt <=o는 other 제 3자에게 쓰기를 빼겠다
+chmod g+w a.txt
+chmod u-w a.txt
+
+cd .jupyter/
+vim 들어가기
+
+비주얼모드 보기보드
+i ->쓰기모드
+//컨트롤cv안먹음
+: ->명령어모드
+q! 강제로타룰
+쓰기 w
+쓰고나가기 wq
+jupyter server passwd
+
+ipython //주비터랑 유사 cell번호 //매쓰매티카=>siri창조
+
+from jupyter_server.auth import passwd
+passwd()
+out[2]=>암호화임
+
+
+vim jupyter_notebook_config.py
+ese :/password 검색
+위암호넣기
+
+n : 다음 찾기 
+N : 이전 찾기 
+
+주석지우고 
+
+:/notebook_dir
+주석지우고
+~/workspace/입력 /home/jotaesik/workspace
+c.ServerApp.notebook_dir = ""
+c.ServerApp.password = ""
+
+# 쓰고 나가기 
+:/wq 
+
+주소창에 localhost:8888
+
+wq하고나가기 
+
+//nano
+
+pycharm
+제프레이라는 회사
+
+dict-json
+
+dir()기능알아볼때
+.keys .values .items
+
+data['list'][-1]['addr'].find("서초")	//list로하면 딕셔너리되고 -1하면 뒤에있는 원소 'addr'은 키값 서초라는 find로 찾음 없으면 -1 있으면 위치
+for i in range(len(data['list'])):	//총 개수에서
+   if data['list'][i]['addr'].find("서초")>0:
+       print(data['list'][i]['addr'])
+
+
+//for i in range(len(data['list'])):
+   if data['list'][i]['addr'].find("서초")!=-1:
+       print(data['list'][i]['s_name'])
+
+//for star in data['list']:
+   if star['addr'].find("서초")!=-1:
+       print(star['s_name'])
+
+seocho2=[star['s_name'] for star in data['list'] if star['addr'].find("서초")!=-1]
+//
+
+list append
+list명=[x for x in range(0,10)] //리스트 축약형
+	x값은 받아서 append할값
+
+empty_list =[]
+for x in range(0,10):
+    if x % 2 == 0:
+        empty_list.append(x)
+
+# list comprehension(리스트 축약형)
+
+empty_list2 = [x for x in range(0, 10) if x % 2 ==0]
+
+from A import A에 속한 함수들
+함수들.함수명()
+from A
+a.함수들.함수명()
+
+from datetime import date, datetime, timedelta
+
+for t in range(0,1001,100):	//0부터 100 200 300...1000
+    print(date.today()+timedelta(days=t))	//오늘날짜로부터 100 200 t를 더함
+
+for t in range(0, 1001, 100):
+    # f-string 3.6이상 
+    print(f"{t}일째 - {date.today() + timedelta(days=t)} - {(date.today() + timedelta(days=t)).weekday()}")
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+요일내가 한번해보기
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
