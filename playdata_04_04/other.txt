@@ -1,0 +1,3 @@
+driver.find_element(By.CSS_SELECTOR, "#cphContents_cphContents_cphContents_ddlTeam > option:nth-child(3)").click()
+
+patterns = re.compile("playerProfile_([a-zA-z]+)")
