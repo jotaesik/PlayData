@@ -1,0 +1,4 @@
+heididsql 들어가기위해서는
+
+wsl jupyter-noteobook들어가고
+sudo service mysql start->ifconfig->heididsql들어가기
