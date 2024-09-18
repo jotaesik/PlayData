@@ -1,0 +1,45 @@
+strptime함수
+kbo_df.연봉.str.find("달러") > -1
+//연봉이라는 컬럼에 있어서 달러가 포함되어있지않으면 -1 리턴
+//그렇게 해서 False인지 True인지 하기 
+
+kbo2 = kbo_df[kbo_df.연봉.str.find("달러") > -1].copy()
+연봉이 달러인 선수들만 받아오기
+
+최신버전이 아니라서 오류가 뜰수도있습니다는
+import warnings
+warnings.filterwarnings(action='ignore') 이걸로 오류를 막을수있다. 하지만 섬세해야한다.
+
+pd.read_html()은 리스트안에 df이 들어있는 상태로 table가져온다.
+
+exchange.columns = ["_".join(x[:2]) for x in exchange.columns]
+_를 사이에 넣으면서 //구분자.join(리스트)
+
+kbo2.sort_values(by=['연봉'], ascending=False)
+//연봉을 내림차순으로 default는 True
+
+copy와 copy()는 다르다
+method와 dataframe
+
+kbo3[kbo3.연봉.apply(lambda x : len(x) < 3)]
+연봉의 길이가 2이하인걸 출력한다 apply함수
+
+final.groupby(['team'])[['연봉']].mean().sort_values(by=['연봉'], ascending=False)
+team별로 연봉을 평균을구한다 그것을 정렬한다 내림차순으로
+
+agg함수 다중집계작업을 하게해준다
+
+04.04 공부내역
+driver.page_source는 html로 다 가져온다
+
+playid.extend(pattern.findall(driver.page_source))
+page_source에서 정규식을 만족하는거 전부다 가져와서 playid에 넣어준다
+
+kbo_df.set_index("선수명").loc[' 권동욱' ,'신장/체중'] 
+//선수명인덱스가 loc안에들어가는 값 출력
+
+kbo_df.선수명.duplicated().sum()
+//중복되는게 몇개인지 확인
+
+df.drop(['신장/체중'],axis=1, inplace=True) #axis=1은 컬럼 리스트형식이다 
+//inplace가 True이면 값을 저장하라는뜻
