@@ -1,0 +1,4 @@
+abc_list=['a','b','c']
+    for i in abc_list:
+        myStr = myStr.replace(i,' ')
+myStr을 0부터 len까지 검사하면서 a,b,c에 해당되면 공백으로바꾼다

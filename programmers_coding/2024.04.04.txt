@@ -1,0 +1,8 @@
+list.count() 요소의 개수세기
+max함수 key사용하기 
+
+str' object does not support item assignment
+문자열은 수정을 우해 리스트처럼 인덱스 접급은 가능하나  수정은 불가
+replace(바뀔문자, 바꾸어질문자)
+
+문자열뒤집는법 str[시작:끝][시작:끝:-1] =>거꿀로

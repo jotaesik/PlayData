@@ -1,0 +1,5 @@
+sorted() 함수를 쓰면 튜플의 리스트로 변환된다. 
+그러므로 for key,value in 리스트이름
+
+list.index(값)
+첫번째 값의 index 값을 반환합니다.

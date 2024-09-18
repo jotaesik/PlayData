@@ -1,0 +1,13 @@
+빈 자료형의 len 은 0이다
+
+set자료형은 부등호로 포함연산이 가능하다
+포함되면 True 아니면 False
+ex)set(str(i))<=set(["5","0"])
+
+set1=set(list) list자료형을 set으로 변환 중복제거
+하지만 set은 인덱스로 접근불가이므로 다시 list자료형으로 변환
+
+set1-set2 집합연산가능
+
+
+
