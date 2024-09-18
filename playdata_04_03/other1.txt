@@ -1,0 +1,29 @@
+from bs4 import BeautifulSoup
+import os
+
+targeturl = "https://www.genie.co.kr/chart/top200"
+lyric = "https://www.genie.co.kr/detail/songInfo?xgnm={}"
+url_head = {'User-Agent':
+'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36 Edg/123.0.0.0'}
+
+target="./lytic"
+if not os.path.isdir(target):
+    os.mkdir(target)
+
+target_r = requests.get(target_url, headers=url_head)
+bs = BeautifulSoup(target_r.text)
+
+for idx, x in enumerate(bs.findAll("td", class='info')):
+    title = x.find("a", class="title ellipsis").text.strip()
+    artist = x.find("a", class="artist ellipsis").text.strip()
+    id = x.find("a", class="title ellipsis")['onclick'].split("'")[1]
+
+    pager = requests.get(lyric.format(id), headers=urlhead)
+    page_bs = BeautifulSoup(page_r.text)
+
+    song_script = page_bs.find("div", class="lyrics").find("p").text.strip().replace('\r\n', ' ')
+
+    f = open(f'{target}/{idx+1}위{artist}{title}.txt', 'w', encoding='utf-8')
+    f.write(song_script)
+    f.close()
+    page_bs.clear()

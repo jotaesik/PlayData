@@ -1,0 +1,35 @@
+import requests
+from bs4 import BeautifulSoup
+import os
+lyric폴더 경로 지정
+target = "./lyric"
+lyric폴더가 없을 경우 생성
+if not os.path.isdir(target):
+    os.mkdir(target)
+url1 = 'https://www.genie.co.kr/chart/top200'
+python으로 get 요청을 보내면 header에 브라우저 정보가 아닌
+파이썬 정보가 담기기 때문에 브라우저 정보를 덮어씌우고 접근하도록 하는 코드
+head = {'User-Agent':
+'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36 Edg/123.0.0.0'}
+r1에 차트 주소를 불러와서 텍스트로 저장
+r1 = requests.get(url1, headers=head)
+bs1에 beautiful soup으로 정리한 텍스트를 불러와서 저장
+bs1 = BeautifulSoup(r1.text)
+for x in bs1.findAll("td", class = "info"):
+    title = x.find("a", class = "title ellipsis").text.strip() # 차트에서 제목 가져오기
+    artist = x.find('a', class ='artist ellipsis').text        # 차트에서 가수 가져오기
+    # url에 가사 정보 주소 + id번호 저장
+    url2 = "https://www.genie.co.kr/detail/songInfo?xgnm=" + x.find('a', class = 'title ellipsis')['onclick'].split("'")[1]
+    # r에 url 주소를 get request를 하고 저장
+    r2 = requests.get(url2, headers = head)
+    # bs2에 beautiful soup으로 정리한 텍스트를 불러와서 저장
+    bs2 = BeautifulSoup(r2.text)
+    # lyrics에 나머지 정보를 제외한 가사만 저장
+    lyrics = bs2.find("pre",id="pLyrics").text.strip()
+    # txt파일 이름 변수 생성
+    fname = target + "/" + artist + "" + title + ".txt"
+    # txt파일 생성
+    f = open(f_name, "w", encoding='utf-8')
+    # txt파일에 가사 작성하기
+    f.write(lyrics)
+    f.close() 
