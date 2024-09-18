@@ -1,0 +1,50 @@
+# -*- coding: utf-8 -*-
+# UTF-8 encoding when using korean
+user_input = input()
+# print (user_input)
+# print(user_input)
+n = user_input.split(" ")[0]
+m =  user_input.split(" ")[1]
+# print(n)
+# print(m)
+# 딕셔너리 사용
+# {a : [ ], b [ ]}
+dic = {}
+for i in range(int(m)):
+	message_input = input()
+	# pass
+	user_id = message_input.split(" ")[0]
+	message =  message_input.split(" ")[1]
+	try:
+		if int(message):
+			# print("yes")
+			change = 1
+	except:
+			# print("no")
+			change = 0
+	if change ==0:
+		if user_id in dic: #마약에 안에 있으면
+			dic[user_id].append(message)	
+		else: #처음 들어온거면
+			dic[user_id] = [message]
+	if change ==1:
+		# print("yes")
+		if user_id in dic:
+			where = int(message)-1
+			dic[user_id][where] = 0
+			pass
+		else:
+			pass
+  	# 지우는거	
+print_ans = 0
+for key in dic:
+	value = dic[key]
+	# print(f"{key} {value}")
+	for i in range(len(value)):
+		if value[i]!=0:
+			print(f"{key} {value[i]}")
+			print_ans+=1
+	
+		
+if print_ans == 0:
+	print("EMPTY")

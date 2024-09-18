@@ -1,0 +1,199 @@
+USE classicmodels;
+
+SHOW TABLES;
+
+DESC customers;
+
+SELECT * FROM customers LIMIT 5;
+
+SELECT *
+FROM customers
+WHERE customerNumber in (103,112)
+
+SELECT *
+FROM orders A
+LEFT JOIN
+orderdetails B
+ON A.orderNumber=B.orderNumber
+
+SELECT COUNT(*) FROM orders
+
+SELECT COUNT(*) FROM orderdetails;
+
+CREATE VIEW tmp_orders AS 
+SELECT * FROM orders LIMIT 10
+
+-- orderNumber의 유효한것만
+SELECT DISTINCT(orderNumber)
+FROM orders
+
+--유효한것의 개수새기
+SELECT COUNT(*)
+FROM (SELECT DISTINCT(orderNumber) FROM orders) A
+
+SELECT SUBSTR(A.orderDate,1,4) AS YY ,COUNT(DISTINCT(orderdetails.orderNumber) AS C, SUM(B.priceEach* B.quantityOrdered) AS SALES
+FROM orders A 
+LEFT JOIN orderdetails B
+ON A.orderNumber = B.orderNumber
+GROUP BY 1
+ORDER BY 1
+
+SELECT SUBSTR('ABCDEF',2,3)
+
+SELECT SUBSTR('2024-04-11',1,7)
+
+SELECT SUBSTR(A.orderDate,1,4) AS YY , COUNT(DISTINCT (A.orderNumber)) AS cnt_purchaser, SUM(B.priceEach* B.quantityOrdered) AS SALES , SUM(B.priceEach* B.quantityOrdered)/COUNT(DISTINCT (A.orderNumber)) AS ATV
+FROM orders A 
+LEFT JOIN orderdetails B
+ON A.orderNumber = B.orderNumber
+GROUP BY 1
+
+
+SELECT C.country, C.city, SUM(B.priceEach* B.quantityOrdered) AS SALES
+FROM orders A 
+LEFT JOIN orderdetails B
+ON A.orderNumber = B.orderNumber
+LEFT JOIN customers C
+ON A.customerNumber=C.customerNumber 
+GROUP BY C.country, C.city
+ORDER BY 1
+
+SELECT CASE WHEN COUNTRY IN ('USA', 'Canada') THEN 'North America'
+ELSE 'Others' END COUNTRY_GRP 
+FROM customers;
+
+
+SELECT CASE WHEN C.COUNTRY IN ('USA', 'Canada') THEN 'North America'
+ELSE 'Others' END COUNTRY_GRP,
+SUM(B.priceEach * B.quantityOrdered) AS sales
+FROM orders A
+LEFT JOIN orderdetails B
+ON A.orderNumber = B.orderNumber
+LEFT JOIN customers C
+ON A.customerNumber = C.customerNumber
+GROUP BY 1;
+
+-- RANK()
+CREATE TABLE STAT AS 
+SELECT C.country, C.city, 
+SUM(B.priceEach * B.quantityOrdered) AS sales
+FROM orders A
+LEFT JOIN orderdetails B
+ON A.orderNumber = B.orderNumber
+LEFT JOIN customers C
+ON A.customerNumber = C.customerNumber
+GROUP BY 1, 2 
+ORDER by 1;
+
+-- DENSE_RANK(), RANK()
+SELECT COUNTRY,SALES,
+DENSE_RANK() OVER(ORDER BY SALES DESC) RNK
+FROM STAT
+
+CREATE VIEW tmp AS
+SELECT COUNTRY,SALES,
+DENSE_RANK() OVER(ORDER BY SALES DESC) RNK
+FROM STAT
+
+SELECT * 
+FROM tmp
+WHERE RNK BETWEEN 1 AND 5
+
+SELECT *
+FROM tmp
+WHERE RNK >=1
+AND RNK <=5
+
+
+-- SUBQUERY()
+SELECT COUNT(*) FROM
+(SELECT C.country, C.city, 
+SUM(B.priceEach * B.quantityOrdered) AS sales
+FROM orders A
+LEFT JOIN orderdetails B
+ON A.orderNumber = B.orderNumber
+LEFT JOIN customers C
+ON A.customerNumber = C.customerNumber
+GROUP BY 1, 2 
+ORDER BY 1) D
+
+
+SELECT *
+FROM
+(
+	SELECT COUNTRY, SALES,
+	DENSE_RANK() OVER(ORDER BY SALES DESC) RNK
+	FROM 
+	(	
+			SELECT C.country, C.city, 
+			SUM(B.priceEach * B.quantityOrdered) AS sales
+			FROM orders A
+			LEFT JOIN orderdetails B
+			ON A.orderNumber = B.orderNumber
+			LEFT JOIN customers C
+			ON A.customerNumber = C.customerNumber
+			GROUP BY 1, 2 
+			ORDER by 1
+	) D
+)  E
+WHERE RNK <=5
+
+
+ALTER TABLE dataset2 MODIFY COLUMN `Title` VARCHAR(200);
+
+
+SELECT `Division Name`
+FROM dataset2
+
+SELECT `Division Name` , AVG(Rating) AS AVG_RATE
+FROM dataset2
+GROUP BY `Division Name`
+ORDER BY 2
+
+
+
+SELECT COUNT(age_class)
+FROM 
+(SELECT CASE WHEN AGE BETWEEN 0 AND 19 THEN "청소년"
+WHEN AGE BETWEEN 20 AND 49 THEN "청년"
+WHEN AGE BETWEEN 49 AND 99 THEN "중년" END age_class, age
+from dataset2) A
+GROUP BY age_class
+
+sELECT CASE WHEN AGE BETWEEN 0 AND 19 THEN "청소년"
+WHEN AGE BETWEEN 20 AND 49 THEN "청년"
+WHEN AGE BETWEEN 49 AND 99 THEN "중년" END age_class, age
+from dataset2
+WHERE rating <=3
+
+
+SELECT *
+FROM orders A 
+
+SELECT A.orderDate,B.priceEach* B.quantityOrdered AS RESULT
+FROM orders A 
+LEFT JOIN orderdetails B
+ON A.orderNumber = B.orderNumber
+
+
+SELECT A.orderDate,SUM(B.priceEach* B.quantityOrdered) AS SALES
+FROM orders A 
+LEFT JOIN orderdetails B
+ON A.orderNumber = B.orderNumber
+GROUP BY A.orderDate
+
+SELECT A.orderDate, B.priceEach * B.quantityOrdered
+FROM orders A
+LEFT JOIN orderdetails B
+ON A.orderNumber = B.orderNumber;
+
+
+SELECT C.country, C.city, 
+SUM(B.priceEach * B.quantityOrdered) AS sales
+FROM orders A
+LEFT JOIN orderdetails B
+ON A.orderNumber = B.orderNumber
+LEFT JOIN customers C
+ON A.customerNumber = C.customerNumber
+GROUP BY 1, 2 
+ORDER BY 1

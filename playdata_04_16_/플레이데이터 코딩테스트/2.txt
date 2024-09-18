@@ -1,0 +1,95 @@
+# -*- coding: utf-8 -*-
+# UTF-8 encoding when using korean
+user_input = input()
+# print ("Hello Goorm! Your input is " + user_input)
+# 떡 튀 순
+# 떡튀 떡순 튀순
+p떡 = int(user_input.split(" ")[0])
+p튀 = int(user_input.split(" ")[1])
+p순= int(user_input.split(" ")[2])
+p = [p떡,p튀,p순]
+user_input1 = input()
+d떡튀 = int(user_input1.split(" ")[0])
+d떡순 = int(user_input1.split(" ")[1])
+d튀순= int(user_input1.split(" ")[2])
+d = [d떡튀,d떡순,d튀순]
+user_input2 = input()
+s떡 = int(user_input2.split(" ")[0])
+s튀 = int(user_input2.split(" ")[1])
+s순 = int(user_input2.split(" ")[2])
+s = [s떡,s튀,s순]
+# print(p)
+# print(d)
+# print(s)
+# 가장 세일 많이 되는거 순으로 선택해서 빼자
+ans = 0 #총 지출비용
+sale_sorted_list = sorted(d, reverse=True)
+first = d.index(sale_sorted_list[0])
+second = d.index(sale_sorted_list[1])
+third = d.index(sale_sorted_list[2])
+# print(first,second,third)
+# print(first)
+if first == 0: #가장 세일많이하는게 떡튀
+	min_buy = min(s떡,s튀)
+	# print(min_buy)
+	ans = min_buy*(p떡+p튀-d떡튀)
+	s떡 = s떡 - min_buy
+	s튀 = s튀 - min_buy
+elif first==1: #떡순
+	min_buy = min(s떡,s순)
+	# print(min_buy)
+	ans = min_buy*(p떡+p순-d떡순)
+	s떡 = s떡 - min_buy
+	s순 = s순 - min_buy
+else: #튀순
+	min_buy = min(s튀,s순)
+	# print(min_buy)
+	ans = min_buy*(p튀+p순-d튀순)
+	s튀 = s튀 - min_buy
+	s순 = s순 - min_buy
+
+if second == 0: #가장 세일많이하는게 떡튀
+	min_buy = min(s떡,s튀)
+	# print(min_buy)
+	ans = ans+min_buy*(p떡+p튀-d떡튀)
+	s떡 = s떡 - min_buy
+	s튀 = s튀 - min_buy
+elif second==1: #떡순
+	min_buy = min(s떡,s순)
+	# print(min_buy)
+	ans = ans+min_buy*(p떡+p순-d떡순)
+	s떡 = s떡 - min_buy
+	s순 = s순 - min_buy
+else: #튀순
+	min_buy = min(s튀,s순)
+	# print(min_buy)
+	ans = ans+min_buy*(p튀+p순-d튀순)
+	s튀 = s튀 - min_buy
+	s순 = s순 - min_buy
+
+	
+if third == 0: #가장 세일많이하는게 떡튀
+	min_buy = min(s떡,s튀)
+	# print(min_buy)
+	ans = ans+min_buy*(p떡+p튀-d떡튀)
+	s떡 = s떡 - min_buy
+	s튀 = s튀 - min_buy
+elif third==1: #떡순
+	min_buy = min(s떡,s순)
+	# print(min_buy)
+	ans = ans+min_buy*(p떡+p순-d떡순)
+	s떡 = s떡 - min_buy
+	s순 = s순 - min_buy
+else: #튀순
+	min_buy = min(s튀,s순)
+	# print(min_buy)
+	ans = ans+min_buy*(p튀+p순-d튀순)
+	s튀 = s튀 - min_buy
+	s순 = s순 - min_buy	
+	
+ans = ans + p떡*s떡 + 	p순*s순 + p튀*s튀
+print(ans)
+	
+
+
+

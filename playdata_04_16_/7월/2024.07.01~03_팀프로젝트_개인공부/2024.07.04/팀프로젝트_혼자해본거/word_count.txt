@@ -1,0 +1,81 @@
+from pyspark.sql import SparkSession
+from sqlalchemy import create_engine
+
+# make mysql engine
+def _make_engine():
+  conf = load_env()
+  engine = create_engine(f"mysql+pymysql://{conf['USER']}:{conf['PWD']}@{conf['HOST']}:{conf['PORT']}/{conf['DB']}")
+  return engine
+
+# make spark session
+def make_spark():
+  spark = SparkSession.builder.appName("test_khy").getOrCreate()
+  spark
+  return spark
+
+# conf 파일 정보 불러오기
+def load_env(): 
+  conf = {}
+  with open('.env', 'r') as f:
+    for line in f:
+      key, value = line.strip().split('=')
+      conf[key] = value
+  return conf
+
+# excute sql through spark
+def excute_mysql_pyspark(spark, date, main_section, sub_section):
+  conf = load_env()
+  # read mysql data
+  jdbc_url = f"jdbc:mysql://{conf['HOST']}:{conf['PORT']}/{conf['DB']}"
+  query = f"SELECT * FROM naver_miniproject.news WHERE datetime LIKE '{date}%' AND main_section = {main_section} AND sub_section = {sub_section} LIMIT 10"
+  df = spark.read.format("jdbc").option("url", jdbc_url).option("query", query).option("user", conf['USER']).option("password", conf['PWD']).load()
+
+  return df
+
+sections = [
+            ['100','264','265','268','266','267','269'],
+            ['101','259','258','261','771','260','262','310','263'],
+            ['102','249','250','251','254','252','59b','255','256','276','257'],
+            ['103','241','239','240','237','238','276','242','243','244','248','245'],
+            ['105','731','226','227','230','732','283','229','228'],
+            ['104','231','232','233','234','322'],
+        ]
+
+spark = make_spark()
+for section in sections: 
+  main_section = section[0]
+  sub_section = section[1:]
+
+  for sub in sub_section:
+    df = excute_mysql_pyspark(spark, "2024-05-04", main_section, sub)
+    df.show()
+
+
+# install konlpy
+# pip install konlpy
+
+# install mecab
+# bash <(curl -s https://raw.githubusercontent.com/konlpy/konlpy/master/scripts/mecab.sh)
+
+
+import konlpy
+from konlpy.tag import Mecab
+mecab = Mecab()
+
+def noun_verv_tokenize(text):
+  return [word for word, pos in mecab.pos(text) if pos in ['NNG', 'NNP', 'VV']]
+
+def word_counter(counter_arr, text):
+  for word in text:
+    if word in counter_arr:
+      counter_arr[word] += 1
+    else:
+      counter_arr[word] = 1
+  return counter_arr
+
+
+counter_arr = {}
+for row in df.rdd.collect():
+  text = row['content']
+  text = noun_verv_tokenize(text)
+  counter_arr = word_counter(counter_arr, text)

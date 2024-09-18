@@ -1,0 +1,66 @@
+from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponse
+from ..models import Question, Answer
+from django.utils import timezone
+from ..forms import QuestionForm, AnswerForm
+from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+# Create your views here.
+
+
+@login_required(login_url='common:login')
+def answer_create(request, question_id):
+    q = get_object_or_404(Question, pk=question_id)
+    if request.method == "POST":
+        form = AnswerForm(request.POST)
+        if form.is_valid():
+            answer = form.save(commit=False)
+            answer.author = request.user
+            answer.create_date = timezone.now()
+            #rt = requests.post(api_url, data={'message' : answer.content}).json()
+            #print(rt)
+            # if rt['proba'] > 0.5:
+            #     answer.emotion = "&#x1F604"
+            # else:
+            #     answer.emotion = "&#x1F622"
+            answer.emotion = "&#x1F604"
+            answer.question = q
+            answer.save()
+            return redirect('encore:detail', question_id=q.id)
+    else:
+        form = AnswerForm()
+    context = {'question' : q, 'form' : form}
+    return render(request, 'encore/question_detail.html', context) 
+
+@login_required(login_url='common:login')    
+def answer_modify(request, answer_id):
+    q = get_object_or_404(Answer, pk=answer_id)
+    if request.user != q.author:
+        messages.error(request,"수정권한없음")
+        return redirect('encore:detail', question_id=q.question_id)
+
+    if request.method == "POST":
+        form = AnswerForm(request.POST, instance=q)
+        if form.is_valid():
+            answer = form.save(commit=False)
+            answer.author = request.user
+            answer.modify_date = timezone.now()
+            answer.save()
+            return redirect('encore:detail', question_id=q.question.id)
+    else:
+        form = AnswerForm(instance=q)
+
+    context = {'answer' : q, 'form' : form}
+    return render(request, 'encore/answer_form.html', context) 
+
+
+@login_required(login_url='common:login')
+def answer_delete(request, answer_id):
+    answer = get_object_or_404(Answer, pk=answer_id)
+    if request.user != answer.author:
+       messages(request, '권한없음')
+    else:
+        answer.delete()
+    return redirect('encore:detail', question_id=answer.question.id)
+

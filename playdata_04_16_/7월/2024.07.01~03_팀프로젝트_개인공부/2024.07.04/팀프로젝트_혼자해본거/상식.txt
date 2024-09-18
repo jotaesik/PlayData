@@ -1,0 +1,3 @@
+언제든지 /opt/spark/sbin 들어가서 start-all.sh stop-all.sh 앞에 현재폴더를 안누르면
+기본적으로 default 되어있는 hadoop 종료 
+./추가시 spark종료
